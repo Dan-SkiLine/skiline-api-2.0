@@ -1,0 +1,26 @@
+{
+  "name": "skiline-api-2.0",
+  "version": "1.0.0",
+  "description": "API bridge for Skiline Elastic Search",
+  "main": "server.js",
+  "scripts": {
+    "build": "babel server.js -d dist",
+    "start:dist": "npm run build && node dist/server.js",
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Recon Business Intelligence Ltd",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/elasticsearch": "^7.6.1",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.5"
+  }
+}
