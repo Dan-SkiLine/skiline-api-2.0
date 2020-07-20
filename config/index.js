@@ -17,10 +17,10 @@ const environments = {
   },
   production: {
     elasticsearch: {
-      node: "http://localhost:9200",
+      node: "http://10.183.160.51:9200",
       auth: {
         username: 'elastic',
-        password: 'changeme'
+        password: 'vfOK12.0912pf!'
       }
     }
   }
