@@ -13,8 +13,9 @@ async function getData(req, res) {
     })
     const { page, page_size } = req.query;
     let filteredResults = [];
-    const startPos = page*page_size
-    for(var i=startPos; i<startPos+page_size; i++) {
+    const startPos = parseInt(page*page_size);
+    const endPos = startPos+parseInt(page_size)
+    for(var i=startPos; i<endPos; i++) {
       filteredResults.push(results.body.hits.hits[i]);
     }
     res.status(200).json({
