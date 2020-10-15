@@ -7,11 +7,20 @@ const { queryBuilder, handleError, sortArgs, priceOptions, priceAggs, priceQuery
 async function getData(req, res) {
   try {
     const body = queryBuilder(req.query, searchAggs)
-    const result = await client.search({
+    const results = await client.search({
       index: 'skiline-prices',
       body
     })
-    res.status(200).json(result)
+    const { page, page_size } = req.query;
+    let filteredResults = [];
+    const startPos = page*page_size
+    for(var i=startPos; i<startPos+page_size; i++) {
+      filteredResults.push(results.body.hits.hits[i]);
+    }
+    res.status(200).json({
+      filteredResults,
+      totalLocations: results.body.hits.hits.length
+    })
   }
   catch(er) {
     handleError(er, res);
@@ -20,7 +29,7 @@ async function getData(req, res) {
 
 async function getOptions(req, res) {
   try {
-    const query = {...req.query, ...{ page_size: 0 }};
+    const query = {...req.query, ...{ size: 0 }};
     const body = queryBuilder(query, optionsAggs);
     const result = await client.search({
       index: 'skiline-prices',

@@ -14,10 +14,9 @@ const setParameter = (name, value) => {
   }
 }
 
-const defaultQuery = ({page, page_size, minValue, maxValue, date_min, date_max, adults, children}, aggs) => {
+const defaultQuery = ({size = 10000, minValue, maxValue, date_min, date_max, adults, children}, aggs) => {
   return {
-    from: page_size * page,
-    size: page_size,
+    size,
     track_total_hits: true,
     "query": {
       "bool": {
