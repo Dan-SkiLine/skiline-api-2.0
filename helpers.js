@@ -18,6 +18,7 @@ const defaultQuery = ({page, page_size, minValue, maxValue, date_min, date_max, 
   return {
     from: page_size * page,
     size: page_size,
+    track_total_hits: true,
     "query": {
       "bool": {
         "must": [
@@ -71,6 +72,7 @@ const getBoardsForPropertyType = accomType => {
 
 const priceOptions = id => ({
   "size": 0,
+  "track_total_hits": true,
   "query": {
     "bool": {
       "must": [{
