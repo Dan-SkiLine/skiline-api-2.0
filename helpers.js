@@ -1,10 +1,15 @@
+const { node, auth } = require('./config').settings.elasticsearch;
+const { Client } = require('@elastic/elasticsearch');
+const client = new Client({ node, auth });
 const { features, queryParams, showAccomodationOnly, promotions, showAllResorts } = require("./constants")
 
+// Simple error handler and outputter used by everything
 const handleError = (er, res) => {
   console.log(er)
   res.status(500).send(er)
 }
 
+// Param setter
 const setParameter = (name, value) => {
   let term = Array.isArray(value) ? "terms" : "term"
   return {
@@ -14,7 +19,20 @@ const setParameter = (name, value) => {
   }
 }
 
-const defaultQuery = ({size = 10000, minValue, maxValue, date_min, date_max, adults, children}, aggs) => {
+// Runs queries against the ElasticSearch index
+const doQuery = async body => {
+  try {
+    return await client.search({
+      index: 'skiline-prices',
+      body
+    });
+  }
+  catch(e) {
+    return handleError(e);
+  }
+}
+
+const defaultQuery = ({size = 0, minValue, maxValue, date_min, date_max, adults, children}, aggs) => {
   return {
     size,
     track_total_hits: true,
@@ -67,50 +85,6 @@ const getBoardsForPropertyType = accomType => {
       return ["All Inclusive", "Catered Chalet", "Chalet Club Board", "Chalet Hotel", "Half Board Hotel", "Hotel B&B", "Hotel Full Board", "Room Only", "Hotel Club Board", "Room Only", "Self Catered Apartment", "Self-Catered Chalet"];
       break;
   }
-}
-
-const priceOptions = id => ({
-  "size": 0,
-  "track_total_hits": true,
-  "query": {
-    "bool": {
-      "must": [{
-         "match": {
-            id
-        }
-      }]
-    }
-  },
-  "aggs": {
-    "durations": {
-      "terms": {
-        "field": "duration",
-        "order": {
-          "_key": "asc"
-        }
-      }
-    },
-    "airports": {
-      "terms": {
-        "field": "out_departure_airport.keyword",
-        "order": {
-          "_key": "asc"
-        }
-      }
-    },
-    "rooms": {
-      "terms": {
-        "field": "room_type.keyword",
-        "order": {
-          "_key": "asc"
-        }
-      }
-    }
-  }
-})
-
-const getPrices = id => {
-  return 0;
 }
 
 const queryBuilder = (options, aggs) => {
@@ -210,33 +184,6 @@ const priceAggs = ({sort_by, ext_node_id, date_min, date_max, durations, departu
   return q;
 }
 
-const priceQuery = (id, price, date, params) => {
-  const q = {
-    "size": 1,
-    "query": {
-      "bool": {
-        "must": [
-          { "match": {
-            "ext_node_id": id
-          }},
-          { "match": {
-            "now_price": price
-          }},
-          {	"range": {
-              "departure_date": {
-                "gte": date,
-                "lte": date
-              }
-            }
-          },
-        ]
-      }
-    }
-  }
-  if (params.departure_airport) q.query.bool.must.push({"match": { "out_departure_airport.keyword": params.departure_airport }})
-  return q;
-}
-
 const price = id => ({
   "size": 1,
   "query": {
@@ -263,10 +210,9 @@ const price = id => ({
 module.exports = {
   queryBuilder,
   handleError,
+  doQuery,
   sortArgs,
-  priceOptions,
   priceAggs,
-  priceQuery,
   price,
   test: {
     setParameter,

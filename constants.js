@@ -110,8 +110,36 @@ const optionsAggs = {
     }
 }
 
-const searchAggs = {
-
+const searchAggs = sort => {
+  return {
+    "bucketResults": {
+      "terms": {
+        "field": "ext_node_id",
+        "size": 100000,
+        "order": sort
+      },
+      "aggs": {
+        "lowest_price": {
+          "min": {
+            "field": "now_price"
+          }
+        },
+        "recommended": {
+          "min": {
+            "field": "recommended"
+          }
+        },
+        "discount":{
+           "max":{
+             "field": "was_price",
+              "script":{
+                "source": "doc.was_price.value - doc.now_price.value"
+              }
+           }
+        }
+      }
+    }
+  }
 }
 
 const showAccomodationOnly = {

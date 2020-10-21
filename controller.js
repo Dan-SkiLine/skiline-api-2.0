@@ -2,25 +2,49 @@ const { node, auth } = require('./config').settings.elasticsearch;
 const { Client } = require('@elastic/elasticsearch');
 const client = new Client({ node, auth });
 const { searchAggs, optionsAggs } = require('./constants');
-const { queryBuilder, handleError, sortArgs, priceOptions, priceAggs, priceQuery, price } = require('./helpers');
+const { queryBuilder, handleError, sortArgs, priceAggs, price, doQuery } = require('./helpers');
+const { getHolidayItemQuery, priceQuery, getPropertyPriceOptionsQuery } = require('./queries');
 
+/**
+ * [getData is the main bread and butter function for search results]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 async function getData(req, res) {
   try {
-    const body = queryBuilder(req.query, searchAggs)
-    const results = await client.search({
-      index: 'skiline-prices',
-      body
-    })
-    const { page, page_size } = req.query;
-    let filteredResults = [];
+    const { page, page_size, sort_by } = req.query
+    // this can be split out into its own function
+    // gets inital buckets aggregation to filter and return results in the next step
+    const bucketSort = sortArgs(sort_by);
+    const bucketAggs = searchAggs(bucketSort);
+    const bucketQuery = queryBuilder(req.query, bucketAggs);
+    const buckets = await doQuery(bucketQuery);
+    const bucketResults = buckets.body.aggregations.bucketResults.buckets;
+
+    // this can be split out into its own function
+    // splits the results into a page and fetches each item to add to the result set
     const startPos = parseInt(page*page_size);
-    const endPos = startPos+parseInt(page_size)
-    for(var i=startPos; i<endPos; i++) {
-      filteredResults.push(results.body.hits.hits[i]);
-    }
-    res.status(200).json({
-      filteredResults,
-      totalLocations: results.body.hits.hits.length
+    const endPos = startPos+parseInt(page_size);
+    const pagedResults = bucketResults.slice(startPos, endPos);
+    const filteredResults = pagedResults.map(async result => {
+      try {
+        const { key, lowest_price } = result
+        const resultQuery = getHolidayItemQuery(key, lowest_price, req.query);
+        const actualResult = await doQuery(resultQuery);
+        return actualResult.body.hits.hits[0]._source;
+      }
+      catch(e) {
+        return handleError(e)
+      }
+    })
+
+    // finally, exec the promises and return the results and the count
+    Promise.all(filteredResults).then(filteredResults => {
+      res.status(200).json({
+        filteredResults,
+        totalLocations: bucketResults.length
+      })
     })
   }
   catch(er) {
@@ -69,7 +93,7 @@ async function getAllResorts() {
 async function getPrices(req, res) {
   try {
     const id = req.query.ext_node_id;
-    const optionsBody = priceOptions(id);
+    const optionsBody = getPropertyPriceOptionsQuery(id);
     const options = await client.search({
       index: 'skiline-prices',
       body: optionsBody
