@@ -97,7 +97,14 @@ const queryBuilder = (options, aggs) => {
       q.push(param);
     }
   })
-  if (options["showAccomodationOnly"]) q.push(showAccomodationOnly)
+  if (options["showAccomodationOnly"]) {
+    q.push(showAccomodationOnly)
+  } else if (!options["departure_airport"]) {
+    query.query.bool.must_not = {
+      "term": { "out_departure_airport.keyword": "Independent Travel" }
+    }
+  }
+
   if (options["property_type"]) {
     const p = getBoardsForPropertyType(options["property_type"]);
     q.push(p);
