@@ -143,10 +143,8 @@ const searchAggs = sort => {
 }
 
 const showAccomodationOnly = {
-  "contain": {
-    "term": {
-      "out_departure_airport.keyword": "Independent Travel"
-    }
+  "term": {
+    "out_departure_airport.keyword": "Independent Travel"
   }
 };
 
