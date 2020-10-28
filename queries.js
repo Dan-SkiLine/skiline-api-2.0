@@ -75,13 +75,13 @@ const priceQuery = (id, price, date, params) => {
  */
 
 const getPropertyPriceOptionsQuery = id => ({
-  "size": 0,
   "track_total_hits": true,
+  "size": 0,
   "query": {
     "bool": {
       "must": [{
          "match": {
-            id
+            ext_node_id: id
         }
       }]
     }

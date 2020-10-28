@@ -98,21 +98,25 @@ async function getPrices(req, res) {
       index: 'skiline-prices',
       body: optionsBody
     });
-    const priceBody = priceAggs(req.query)
+    const pricesBody = priceAggs(req.query)
     const result = await client.search({
       index: 'skiline-prices',
-      body: priceBody
+      body: pricesBody
     });
     const { buckets } = result.body.aggregations.cheapest;
-    const results = buckets.map(item => {
+    const promises = buckets.map(async item => {
       const { value } = item.lowest_price;
       if (value) {
-        const price = priceQuery(id, value, item.key_as_string, req.query);
-        return price.hits.hits[0]._source;
+        const priceBody = priceQuery(id, value, item.key_as_string, req.query);
+        const priceResult = await doQuery(priceBody);
+        return priceResult.body.hits.hits[0]._source;
       }
     }).filter(x => x);
-    const response = [results, {options}];
-    res.status(200).json(response);
+    Promise.all(promises).then(results => {
+      const response = results
+      response.push({options: options})
+      res.status(200).json(response);
+    })
   }
   catch(er) {
     handleError(er, res);
