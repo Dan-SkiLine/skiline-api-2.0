@@ -126,7 +126,7 @@ async function getPrices(req, res) {
 async function getLowestPrice(req, res) {
   try {
     const id = req.query.ext_node_id;
-    const body = price(id)
+    const body = price(id);
     const result = await client.search({
       index: 'skiline-prices',
       body
