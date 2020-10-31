@@ -21,7 +21,7 @@ async function getData(req, res) {
     const bucketQuery = queryBuilder(req.query, bucketAggs);
     const buckets = await doQuery(bucketQuery);
     const bucketResults = buckets.body.aggregations.bucketResults.buckets;
-
+    const totalLocation = bucketResults.slice(0);
     // this can be split out into its own function
     // splits the results into a page and fetches each item to add to the result set
     const startPos = parseInt(page*page_size);

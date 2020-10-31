@@ -97,9 +97,8 @@ const queryBuilder = (options, aggs) => {
       q.push(param);
     }
   })
-  if (options["showAccomodationOnly"]) {
-    q.push(showAccomodationOnly)
-  } else if (!options["departure_airport"]) {
+
+  if (!options["showAccomodationOnly"]) {
     query.query.bool.must_not = {
       "term": { "out_departure_airport.keyword": "Independent Travel" }
     }
