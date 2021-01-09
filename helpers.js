@@ -184,8 +184,8 @@ const priceAggs = ({sort_by, ext_node_id, date_min, date_max, durations, departu
       }
     }
   }
-  if (durations) q.query.bool.must.push(setParameter('durations', durations));
-  if (departure_airport) q.query.bool.must.push(setParameter('departure_airport', departure_airport));
+  if (durations) q.query.bool.must.push(setParameter('duration', durations));
+  if (departure_airport) q.query.bool.must.push(setParameter('out_departure_airport.keyword', departure_airport));
   if (room_type) q.query.bool.must.push(setParameter('room_type', room_type));
   return q;
 }

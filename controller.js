@@ -112,8 +112,9 @@ async function getPrices(req, res) {
         return priceResult.body.hits.hits[0]._source;
       }
     })
+
     Promise.all(promises).then(results => {
-      const response = results.filter(x => x)
+      const response = results.filter(x => x !== undefined)
       response.push({options: options})
       res.status(200).json(response);
     })

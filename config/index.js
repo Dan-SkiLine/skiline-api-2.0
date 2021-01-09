@@ -23,6 +23,15 @@ const environments = {
         password: 'vfOK12.0912pf!'
       }
     }
+  },
+  external_prod: {
+    elasticsearch: {
+      node: "http://134.213.168.17:9200",
+      auth: {
+        username: 'elastic',
+        password: 'vfOK12.0912pf!'
+      }
+    }
   }
 };
 
