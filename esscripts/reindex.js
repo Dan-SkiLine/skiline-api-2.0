@@ -18,6 +18,71 @@ curl -u elastic:vfOK12.0912pf! -X POST "localhost:9200/_reindex?pretty" -H 'Cont
 }
 '
 
+curl -u elastic:vfOK12.0912pf! -H 'Content-Type: application/json' -X POST "localhost:9200/skiline-prices/_delete_by_query" -d'
+{
+  "query": {
+    "bool": {
+      "must_not": {
+        "terms": {
+          "process_id": [
+          "5f6897fbb7228e241f627157",
+          "5f872994b7228e69bb5d0192",
+          "5fa960c4b7228e52c33041e1",
+          "5fa960c4b7228e52c33041e3",
+          "5fa960c4b7228e52c33041e5",
+          "5fa960c4b7228e52c33041e7",
+          "5fa960c4b7228e52c33041e9",
+          "5fa960c4b7228e52c33041eb",
+          "5fa960c4b7228e52c33041ed",
+          "5fa960c4b7228e52c33041ef",
+          "5fb4fe78b41b172c0919dafb",
+          "5fb56ed0b41b172c0919dafc",
+          "5fb9e49fb7228e061c9432ce",
+          "5fb9e49fb7228e061c9432d0",
+          "5fb9e49fb7228e061c9432d2",
+          "5fb9e49fb7228e061c9432d4",
+          "5fb9e49fb7228e061c9432d6",
+          "5fb9e49fb7228e061c9432d8",
+          "5fb9e49fb7228e061c9432da",
+          "5fb9e49fb7228e061c9432dc",
+          "5fb9ea76b7228e0aad10328a",
+          "5fb9ea76b7228e0aad10328c",
+          "5fb9ea76b7228e0aad10328e",
+          "5fb9ea76b7228e0aad103290",
+          "5fb9ea76b7228e0aad103292",
+          "5fb9ea76b7228e0aad103294",
+          "5fb9ea76b7228e0aad103296",
+          "5fb9ea76b7228e0aad103298",
+          "5fb9f378b7228e0ff51f6201",
+          "5fb9f379b7228e0ff51f6203",
+          "5fb9f379b7228e0ff51f6205",
+          "5fb9f379b7228e0ff51f6207",
+          "5fb9f379b7228e0ff51f6209",
+          "5fb9f379b7228e0ff51f620b",
+          "5fb9f379b7228e0ff51f620d",
+          "5fb9f37ab7228e0ff51f620f",
+          "5fb9f38db7228e0ff51f6215",
+          "5fb9f38db7228e0ff51f6217",
+          "5fb9f38db7228e0ff51f6219",
+          "5fb9f38db7228e0ff51f621b",
+          "5fba245cb7228e2653f5736c",
+          "5fba2496b7228e2653f57372",
+          "5fba2c16b7228e2ae0326220",
+          "5fba2f9db7228e2c9202507a",
+          "5fba4f6cb7228e3bf31337f0",
+          "5fba6316b7228e4748969862",
+          "5fba6316b7228e4748969864",
+          "5fbab9dbb41b172c0919db02",
+          "5fbabc88b41b172c0919db03"
+
+          ]
+        }
+      }
+    }
+  }
+}
+'
+
 /**************************************************************************************************
  * LOCAL VERSION
  * @type {[type]}
@@ -441,7 +506,7 @@ curl -u elastic:vfOK12.0912pf! -X PUT "localhost:9200/skiline-prices-new" -H 'Co
 '
 
 curl -u elastic:vfOK12.0912pf! -X PUT "localhost:9200/skiline-prices" -H 'Content-Type: application/json' -d'
-{ "mappings":{ "properties":{ "adults_only":{ "type":"long" }, "all_ensuite":{ "type":"long" }, "all_not_ensuite":{ "type":"long" }, "beds":{ "type":"long" }, "board":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "chalet_grade":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "childcare":{ "type":"long" }, "corporate":{ "type":"long" }, "country_name":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "departure_date":{ "type":"date" }, "distance_toCentre":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "distance_toLift":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "distance_toPiste":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "duration":{ "type":"long" }, "ext_country_id":{ "type":"long" }, "ext_node_id":{ "type":"long" }, "ext_resort_id":{ "type":"long" }, "filename":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "hot_tub":{ "type":"long" }, "imageURL":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_arrival_airport":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_arrival_airport_code":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_atime":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_carrier":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_departure_airport_code":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_dtime":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_flightnum":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_house_creche":{ "type":"long" }, "in_resort_driver":{ "type":"long" }, "local_pass_inc":{ "type":"long" }, "mot":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "nearly_ski_in_ski_out":{ "type":"long" }, "now_price":{ "type":"long" }, "open_fire":{ "type":"long" }, "operator_name":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_arrival_airport_code":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_atime":{ "type":"long" }, "out_carrier":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_departure_airport":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_departure_airport_code":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_dtime":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_flightnum":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "pool":{ "type":"long" }, "private_bus":{ "type":"long" }, "private_chauffeur":{ "type":"long" }, "process_id":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "promotions":{ "properties":{ "book_by_date":{ "type":"date" }, "description":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "promotionid":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "title":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } } } }, "property_name":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "recommended":{ "type":"long" }, "ref_url":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "resort_name":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "return_date":{ "type":"date" }, "room_type":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "sauna":{ "type":"long" }, "shared_driver":{ "type":"long" }, "short_breaks":{ "type":"long" }, "single_room":{ "type":"long" }, "ski_in_ski_out":{ "type":"long" }, "stars":{ "type":"long" }, "steam_room":{ "type":"long" }, "was_price":{ "type":"long" }, "wifi":{ "type":"long" } } } }'
+{ "mappings":{ "properties":{ "adults_only":{ "type":"long" }, "all_ensuite":{ "type":"long" }, "all_not_ensuite":{ "type":"long" }, "beds":{ "type":"long" }, "board":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "chalet_grade":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "childcare":{ "type":"long" }, "corporate":{ "type":"long" }, "country_name":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "departure_date":{ "type":"date" }, "distance_toCentre":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "distance_toLift":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "distance_toPiste":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "duration":{ "type":"long" }, "ext_country_id":{ "type":"long" }, "ext_node_id":{ "type":"long" }, "ext_resort_id":{ "type":"long" }, "filename":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "hot_tub":{ "type":"long" }, "imageURL":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_arrival_airport":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_arrival_airport_code":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_atime":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_carrier":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_departure_airport_code":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_dtime":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_flightnum":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "in_house_creche":{ "type":"long" }, "in_resort_driver":{ "type":"long" }, "local_pass_inc":{ "type":"long" }, "mot":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "nearly_ski_in_ski_out":{ "type":"long" }, "now_price":{ "type":"long" }, "open_fire":{ "type":"long" }, "operator_name":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_arrival_airport_code":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_atime":{ "type" : "text", "fields" : { "keyword" : { "type" : "keyword", "ignore_above" : 256 } } }, "out_carrier":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_departure_airport":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_departure_airport_code":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_dtime":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "out_flightnum":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "pool":{ "type":"long" }, "private_bus":{ "type":"long" }, "private_chauffeur":{ "type":"long" }, "process_id":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "promotions":{ "properties":{ "book_by_date":{ "type":"date" }, "description":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "promotionid":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "title":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } } } }, "property_name":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "recommended":{ "type":"long" }, "ref_url":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "resort_name":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "return_date":{ "type":"date" }, "room_type":{ "type":"text", "fields":{ "keyword":{ "type":"keyword", "ignore_above":256 } } }, "sauna":{ "type":"long" }, "shared_driver":{ "type":"long" }, "short_breaks":{ "type":"long" }, "single_room":{ "type":"long" }, "ski_in_ski_out":{ "type":"long" }, "stars":{ "type":"long" }, "steam_room":{ "type":"long" }, "was_price":{ "type":"long" }, "wifi":{ "type":"long" } } } }'
 
 curl -u elastic:vfOK12.0912pf! -X POST localhost:9200/_reindex -H 'Content-Type: application/json' -d'
 {

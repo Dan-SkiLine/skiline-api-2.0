@@ -98,6 +98,7 @@ const getPropertyPriceOptionsQuery = id => ({
     "airports": {
       "terms": {
         "field": "out_departure_airport.keyword",
+        "size": 50,
         "order": {
           "_key": "asc"
         }
@@ -105,6 +106,7 @@ const getPropertyPriceOptionsQuery = id => ({
     },
     "rooms": {
       "terms": {
+        "size": 50,
         "field": "room_type.keyword",
         "order": {
           "_key": "asc"
