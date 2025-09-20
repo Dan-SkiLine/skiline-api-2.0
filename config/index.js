@@ -1,8 +1,8 @@
 const env = process.env.NODE_ENV || "development";
 const all = {
   https: {
-    key: 123
-  }
+    key: 123,
+  },
 };
 
 const environments = {
@@ -10,33 +10,33 @@ const environments = {
     elasticsearch: {
       node: "http://localhost:9200",
       auth: {
-        username: 'skiline_webuser',
-        password: 'sk4md1sk'
-      }
-    }
+        username: "skiline_webuser",
+        password: "sk4md1sk",
+      },
+    },
   },
   production: {
     elasticsearch: {
-      node: "http://10.183.160.51:9200",
+      node: "http://134.213.168.17:9200",
       auth: {
-        username: 'elastic',
-        password: 'vfOK12.0912pf!'
-      }
-    }
+        username: "elastic",
+        password: "vfOK12.0912pf!",
+      },
+    },
   },
   external_prod: {
     elasticsearch: {
       node: "http://134.213.168.17:9200",
       auth: {
-        username: 'elastic',
-        password: 'vfOK12.0912pf!'
-      }
-    }
-  }
+        username: "elastic",
+        password: "vfOK12.0912pf!",
+      },
+    },
+  },
 };
 
 const settings = Object.assign(all, environments[env]);
 
 module.exports = {
-  settings
-}
+  settings,
+};
